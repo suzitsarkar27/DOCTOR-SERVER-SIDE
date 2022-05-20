@@ -24,12 +24,20 @@ async function run() {
 
     await client.connect();
     const datacollection = client.db("data").collection("servic");
+    const bookingCollection = client.db("booking").collection("data");
     app.get("/data", async (req, res) => {
       const query = {};
       const cursor = datacollection.find(query);
       const service = await cursor.toArray();
       res.send(service);
     });
+
+    //  BOOKING POST
+    app.get('/booking',async(req,res)=>{
+      const booking =req.body;
+      const result =bookingCollection.insertOne(booking);
+      res.send(result);
+    })
   } 
   finally {
    
